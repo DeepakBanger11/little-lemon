@@ -1,23 +1,18 @@
 package com.littlelemon.liitlelemon
 
+
+
 import android.content.Context
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.NavHost
-import com.littlelemon.liitlelemon.Home
-import com.littlelemon.liitlelemon.Profile
-import com.littlelemon.liitlelemon.Onboarding
-import com.littlelemon.liitlelemon.composables.Home
-import com.littlelemon.liitlelemon.composables.Onboarding
-import com.littlelemon.liitlelemon.composables.Profile
-
+import androidx.navigation.compose.composable
+import com.littlelemon.liitlelemon.composables.*
 
 @Composable
 fun NavigationComposable(context: Context,navController: NavHostController) {
     NavHost(navController = navController,
-        startDestination = checkStartDestination(context)
+        startDestination = determineStartDestination(context)
     ) {
         composable(Home.route) {
             Home(navController)
@@ -26,14 +21,15 @@ fun NavigationComposable(context: Context,navController: NavHostController) {
             Profile(navController)
         }
         composable(Onboarding.route) {
-            Onboarding(context,navController)
+            Onboarding(navController)
         }
     }
 }
 
-private fun checkStartDestination(context: Context): String {
-    //check data is stored in shared preferences and return the appropriate destination
+private fun determineStartDestination(context: Context): String {
+    //check if user data is stored in shared preferences and return the appropriate start destination
     // For example, if user data exists, returns Onboarding
+    // Otherwise, returns Home as the default start destination
     val sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
 
 
